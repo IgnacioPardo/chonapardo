@@ -4,8 +4,9 @@ if(/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine
 	isMobile = true;
 	var elements = document.getElementsByClassName("parallax");
 	for(var i=0; i < elements.length; i++){
-    elements[i].style.backgroundAttachment = "scroll";
+    	elements[i].style.backgroundAttachment = "scroll";
 	}
+	
 	elements = document.getElementsByClassName("stripe");
 	for(var i=0; i < elements.length; i++){
 		elements[i].style.height = "300px";
