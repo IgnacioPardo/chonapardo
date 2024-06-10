@@ -1,28 +1,18 @@
-import { SocialIcon } from "./SocialIcon";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
 import { Stripe } from "./Stripe";
+import { SpotifyCassettes } from "./SpotifyCassettes";
 
 export default function Home() {
 
   return (
     <main>
-      <a className="skip-link" href="#maincontent"></a>
-      <div className="header">
-        <div className="" id="header">
-          <img
-            className="center_logo chona_logo"
-            alt="Chona Pardo"
-            src="/images/chona.svg"
-          />
-          <img
-            className="center_logo parrot"
-            alt="Chona Pardo"
-            src="/images/parrot.svg"
-          />
-        </div>
-      </div>
+      <a className="skip-link" href="#maincontent"/>
+      <Header />
       <div id="maincontent" className="projects">
         <Stripe className="img_roadtrip" id="roadtrip" alt="RoadTrip" src="roadtrip" url="https://github.com/IgnacioPardo/RoadTrip" />
-        <Stripe className="img_mapi" id="mapi" alt="mAPI Live" src="mAPI" url="https://www.mapi.live/map" />
+        {/* <Stripe className="img_mapi" id="mapi" alt="mAPI Live" src="mAPI" url="https://www.mapi.live/map" /> */}
+        <SpotifyCassettes />
         <Stripe className="img_playlists" id="playlists" alt="" src="" url="https://open.spotify.com/user/11145402699?si=d1127aefaf844a23" />
         <Stripe className="lemon" id="lemon" alt="The Lemon Drop" src="lemon" url="https://www.youtube.com/channel/UCBV0sh0yA9JFWmiGrX0RIDg" />
         <Stripe className="img_firegarden" id="firegarden" alt="Fire Garden" src="firegarden" url="https://www.youtube.com/channel/UCLghkYR9CIfYpURP8NkHhow" />
@@ -32,18 +22,7 @@ export default function Home() {
         <Stripe className="img_vale" id="vale" alt="Valeria Fioroni" src="vale" url="https://valeriafioroni.com" />
         <Stripe className="img_watchparty" id="watchparty" alt="" src="" url="https://watchparty.ignaciopardo.repl.co" />
       </div>
-      <footer className="footer">
-        <br />
-        <noscript> </noscript>
-        <div className="flex-center">
-          <SocialIcon className="fa-linkedin" url="https://www.linkedin.com/in/pardo-ignacio/" />
-          <SocialIcon className="fa-github" url="https://github.com/IgnacioPardo" />
-          <SocialIcon className="fa-twitter" url="https://www.twitter.com/chona_pardo" />
-          <SocialIcon className="fa-instagram" url="https://www.instagram.com/chona_pardo" />
-          <SocialIcon className="fa-spotify" url="https://open.spotify.com/user/11145402699" />
-        </div>
-        <br />
-      </footer>
+      <Footer />
     </main>
   );
 }

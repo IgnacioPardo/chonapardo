@@ -1,17 +1,23 @@
 'use client';
+import Image from 'next/image';
+
 interface StripeProps {
   className: string;
   id: string;
-  alt: string;
-  src: string;
   url: string;
+  alt: string | undefined;
+  src: string | undefined;
 }
-export const Stripe = ({ className, id, alt, src, url }: StripeProps) => (
+export const Stripe = ({ className, id, url, alt, src }: StripeProps) => (
   <div className={`stripe parallax ${className}`} id={id}>
-    <img
+    {src &&
+    (<Image
+      width={400}
+      height={100}
       className={`center_logo ${className}_logo`}
-      alt={alt}
+      alt={alt || ''}
       src={`/images/${src}.svg`}
-      onClick={() => window.open(url)} />
+      onClick={() => window.open(url)} />)
+    }
   </div>
 );
