@@ -25,7 +25,7 @@ export default function Home() {
             <ObdCluster />
           </Parallax>
         </a>
-        <ModelStripe className="car-stripe car-webxr" id="webxr" src="/models/e36.glb" poster="/images/e36_poster.jpg" alt="WebXR car viewer — E36 3D showcase" logo="webxr" url="https://ignaciopardo.github.io/webxr_demos/" exposure={1.1} fieldOfView="30deg" />
+        <ModelStripe className="car-stripe car-webxr" id="webxr" src="/models/e36.glb" poster="/images/e36_poster.jpg" posterSmall="/images/e36_poster-m.jpg" alt="WebXR car viewer — E36 3D showcase" logo="webxr" url="https://ignaciopardo.github.io/webxr_demos/" exposure={1.1} fieldOfView="30deg" />
         <Stripe className="img_playlists" id="playlists" alt="" src="" url="https://open.spotify.com/user/11145402699?si=d1127aefaf844a23" />
         <Stripe className="lemon" id="lemon" alt="The Lemon Drop" src="lemon" url="https://www.youtube.com/channel/UCBV0sh0yA9JFWmiGrX0RIDg" />
         <Stripe className="img_firegarden" id="firegarden" alt="Fire Garden" src="firegarden" url="https://www.youtube.com/channel/UCLghkYR9CIfYpURP8NkHhow" />

@@ -1,9 +1,10 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface Model3DProps {
   src: string;
   poster?: string;
+  posterSmall?: string;
   alt: string;
   exposure?: number;
   shadowIntensity?: number;
@@ -15,15 +16,21 @@ interface Model3DProps {
   fieldOfView?: string;
 }
 
+/** Touch-first devices (phones, tablets — iPadOS keeps matching with a trackpad attached). */
+const COARSE = '(hover: none) and (pointer: coarse)';
+
 /**
  * Lazy, interactive 3D model stripe content built on <model-viewer>.
- * The library (~1 MB) and the .glb are only fetched once the stripe nears the
- * viewport; until then the poster paints instantly. Attributes are set
- * imperatively because <model-viewer> is a custom element.
+ *
+ * The poster is a plain <img> so the stripe paints instantly; the library
+ * (~1 MB) and the .glb are fetched once the stripe nears the viewport. On touch
+ * devices the model only auto-rotates: camera-controls would set
+ * touch-action:none and swallow vertical swipes over the stripe.
  */
 export const Model3D = ({
   src,
   poster,
+  posterSmall,
   alt,
   exposure = 1,
   shadowIntensity = 0.55,
@@ -36,18 +43,26 @@ export const Model3D = ({
 }: Model3DProps) => {
   const hostRef = useRef<HTMLDivElement>(null);
   const mvRef = useRef<any>(null);
+  const coarseRef = useRef(false);
+  const triggeredRef = useRef(false);
   const [ready, setReady] = useState(false);
+  const [modelLoaded, setModelLoaded] = useState(false);
+
+  const load = useCallback(() => {
+    if (triggeredRef.current) return;
+    triggeredRef.current = true;
+    import('@google/model-viewer')
+      .then(() => setReady(true))
+      .catch(() => {
+        triggeredRef.current = false;
+      });
+  }, []);
 
   // Load the library + reveal the model once the stripe is near the viewport.
   useEffect(() => {
     const el = hostRef.current;
     if (!el) return;
-    let triggered = false;
-    const load = () => {
-      if (triggered) return;
-      triggered = true;
-      import('@google/model-viewer').then(() => setReady(true)).catch(() => {});
-    };
+    coarseRef.current = window.matchMedia(COARSE).matches;
     if (!('IntersectionObserver' in window)) {
       load();
       return;
@@ -59,11 +74,11 @@ export const Model3D = ({
           io.disconnect();
         }
       },
-      { rootMargin: '700px 0px' }
+      { rootMargin: '400px 0px' }
     );
     io.observe(el);
     return () => io.disconnect();
-  }, []);
+  }, [load]);
 
   // Configure the custom element imperatively.
   useEffect(() => {
@@ -78,24 +93,28 @@ export const Model3D = ({
       'rotation-per-second': rotationPerSecond,
       'auto-rotate-delay': '0',
       'interaction-prompt': 'none',
+      // Never trap vertical scrolling over the stripe.
+      'touch-action': 'pan-y',
       loading: 'eager',
       reveal: 'auto',
     };
-    if (poster) attrs.poster = poster;
     if (cameraOrbit) attrs['camera-orbit'] = cameraOrbit;
     if (minCameraOrbit) attrs['min-camera-orbit'] = minCameraOrbit;
     if (maxCameraOrbit) attrs['max-camera-orbit'] = maxCameraOrbit;
     if (fieldOfView) attrs['field-of-view'] = fieldOfView;
     Object.entries(attrs).forEach(([k, v]) => mv.setAttribute(k, v));
-    mv.toggleAttribute('camera-controls', true);
+    // Orbit by drag on desktop only; on touch the model just auto-rotates so
+    // the page keeps scrolling (model-viewer's controls set touch-action:none).
+    mv.toggleAttribute('camera-controls', !coarseRef.current);
     mv.toggleAttribute('auto-rotate', true);
-    // Keep the page scrollable over the stripe: orbit by drag, no wheel-zoom/pan.
     mv.toggleAttribute('disable-zoom', true);
     mv.toggleAttribute('disable-pan', true);
+    const onLoad = () => setModelLoaded(true);
+    mv.addEventListener('load', onLoad);
+    return () => mv.removeEventListener('load', onLoad);
   }, [
     ready,
     src,
-    poster,
     alt,
     exposure,
     shadowIntensity,
@@ -109,6 +128,19 @@ export const Model3D = ({
 
   return (
     <div ref={hostRef} className="model3d">
+      {poster && !modelLoaded && (
+        // Plain <img> on purpose: paints before any JS, no optimizer dependency.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          className="model3d_poster"
+          src={poster}
+          srcSet={posterSmall ? `${posterSmall} 900w, ${poster} 1600w` : undefined}
+          sizes="100vw"
+          alt=""
+          decoding="async"
+          loading="lazy"
+        />
+      )}
       {ready && (
         // eslint-disable-next-line react/no-unknown-property
         <model-viewer ref={mvRef} class="model3d_mv" />

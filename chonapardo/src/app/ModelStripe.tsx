@@ -7,6 +7,7 @@ interface ModelStripeProps {
   className?: string;
   src: string;
   poster?: string;
+  posterSmall?: string; // ~900px variant for phones
   alt: string;
   logo: string; // basename of an SVG wordmark in /images
   url?: string;
@@ -28,6 +29,7 @@ export const ModelStripe = ({
   className = '',
   src,
   poster,
+  posterSmall,
   alt,
   logo,
   url,
@@ -54,6 +56,7 @@ export const ModelStripe = ({
         <Model3D
           src={src}
           poster={poster}
+          posterSmall={posterSmall}
           alt={alt}
           exposure={exposure}
           environmentImage={environmentImage}

@@ -15,6 +15,9 @@ export const Parallax = ({ children, strength = 26, className = '' }: { children
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Off on touch devices, like the CSS background parallax (see globals.css):
+    // a scroll-driven transform on an oversized will-change layer is pure cost on iOS.
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
     let raf = 0;
     const update = () => {
       raf = 0;

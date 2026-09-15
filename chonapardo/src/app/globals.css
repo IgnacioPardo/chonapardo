@@ -283,7 +283,7 @@ body {
 }
 
 .img_perry {
-  background-image: url("/images/Perry.png");
+  background-image: url("/images/perry_bg.jpg");
 }
 
 .img_laq {
@@ -291,26 +291,27 @@ body {
 }
 
 .img_watchparty {
-  background-image: url("/images/WatchParty.png");
-}
-
-.img_cassettes {
-  background-image: url("/images/cassettes.png");
+  background-image: url("/images/watchparty_bg.jpg");
 }
 
 #cassettes{
+  position: relative;
+  overflow: hidden;
   height: 800px !important;
   max-height: 800px !important;
+  background-color: #000;
 }
 
 .iframeCassttes{
+  position: relative; /* above the poster */
+  z-index: 1;
   width: 100%;
   height: 100%;
-
+  border: 0;
 }
 
 .img_playlists {
-  background-image: url("/images/Playlists.png");
+  background-image: url("/images/playlists_bg.jpg");
   background-color: rgb(33, 33, 33);
   height: 650px !important;
   max-height: 650px !important;
@@ -324,12 +325,12 @@ body {
 }
 
 .img_player2vec {
-  background-image: url("/images/player2vec_bg.png");
+  background-image: url("/images/player2vec_bg.webp");
   background-color: #0b0e15;
 }
 
 .img_alzheimer {
-  background-image: url("/images/alzheimer_bg.png");
+  background-image: url("/images/alzheimer_bg.webp");
   background-color: #111;
 }
 
@@ -392,11 +393,23 @@ body {
   background-color: #0a0a0c;
 }
 .model3d_mv {
+  position: relative; /* above the poster <img>; transparent until the model paints */
+  z-index: 1;
   width: 100%;
   height: 100%;
   background: transparent;
   --poster-color: transparent;
   --progress-bar-color: #ff7a2a;
+}
+
+/* instant posters under the lazy embeds */
+.model3d_poster,
+.cassettes_poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* WebXR passthrough-grid backdrop behind the transparent model */
@@ -550,6 +563,28 @@ header, .header {
     background-attachment: scroll;
   }
 
+  /* ~900px variants: a 390px band at DPR 3 never needs more */
+  .img_perry { background-image: url("/images/perry_bg-m.jpg"); }
+  .img_watchparty { background-image: url("/images/watchparty_bg-m.jpg"); }
+  .img_playlists { background-image: url("/images/playlists_bg-m.jpg"); }
+  .img_player2vec { background-image: url("/images/player2vec_bg-m.webp"); }
+  .img_alzheimer { background-image: url("/images/alzheimer_bg-m.webp"); }
+
+  /* the tall stripes' !important heights would otherwise beat the 300px rule */
+  #e36_obd,
+  #webxr {
+    height: 340px !important;
+    max-height: 340px !important;
+  }
+  #cassettes {
+    height: 560px !important;
+    max-height: 560px !important;
+  }
+  #playlists {
+    height: 300px !important;
+    max-height: 300px !important;
+  }
+
   /* keep the meaningful part of each crop on the small band */
   .img_shellcar {
     background-position: center 40%;
@@ -592,6 +627,20 @@ header, .header {
   .icon-3d:hover {
     -webkit-animation: unset;
     animation: unset;
+  }
+}
+
+/* Touch devices of any width (iPad, landscape phones): no fixed backgrounds
+   (iOS doesn't really implement them and sizes `cover` to the viewport), and
+   no oversized will-change layers — Parallax.tsx is a no-op here too. */
+@media (hover: none) and (pointer: coarse) {
+  .parallax {
+    background-attachment: scroll;
+  }
+  .parallax-layer {
+    top: 0;
+    height: 100%;
+    will-change: auto;
   }
 }
 
