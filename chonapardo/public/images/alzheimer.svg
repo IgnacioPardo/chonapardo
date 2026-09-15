@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 230" role="img" aria-label="Multimodal Brain Scans — Alzheimer Research">
+  <style>.f { font-family: ui-sans-serif, system-ui, 'Helvetica Neue', Arial, sans-serif; }</style>
+  <text class="f" x="500" y="58" text-anchor="middle" font-size="30" font-weight="600"
+        letter-spacing="8" fill="#8fb0c8">MULTIMODAL BRAIN SCANS</text>
+  <text class="f" x="500" y="168" text-anchor="middle" font-size="96" font-weight="600"
+        letter-spacing="0.5" fill="#f2f4f7">Alzheimer Research</text>
+</svg>

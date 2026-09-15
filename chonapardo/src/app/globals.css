@@ -325,16 +325,7 @@ body {
 
 .img_player2vec {
   background-image: url("/images/player2vec_bg.png");
-  background-color: #0f1a12;
-}
-
-.img_e36_obd {
-  background-image: url("/images/e36_obd_bg.jpg");
-  background-color: #000;
-}
-
-.img_e36_restoration {
-  background-image: url("/images/e36_restoration_bg.jpg");
+  background-color: #0b0e15;
 }
 
 .img_alzheimer {
@@ -342,25 +333,119 @@ body {
   background-color: #111;
 }
 
-.img_webxr {
-  background-image: url("/images/webxr_bg.png");
-  background-color: #000;
-}
-
 .img_shellcar {
   background-image: url("/images/shellcar_bg.jpg");
   background-color: #0b0b0f;
 }
 
-#e36_restoration {
-  height: 650px !important;
-  max-height: 650px !important; /* photographic, like #playlists */
+.autonoma_logo,
+.webxr_logo {
+  max-height: 20% !important; /* small identity treatment */
 }
 
-.autonoma_logo,
-.webxr_logo,
-.e36_obd_logo {
-  max-height: 18% !important; /* small identity treatment */
+.shellcar_logo {
+  max-width: 32% !important;
+  max-height: 22% !important;
+}
+
+.alzheimer_logo {
+  max-width: 42% !important;
+  max-height: 26% !important;
+  filter: drop-shadow(0 2px 14px rgba(0, 0, 0, 0.95)) drop-shadow(0 0 3px rgba(0, 0, 0, 0.8));
+}
+
+/* taller live cluster + 3D showcase for presence */
+#e36_obd,
+#webxr {
+  height: 560px !important;
+  max-height: 560px !important;
+}
+
+/* ---- Interactive 3D + live stripes ---- */
+.model-stripe,
+.obd-stripe {
+  position: relative;
+  padding: 0;
+  overflow: hidden;
+  text-decoration: none;
+  background: #050506;
+}
+
+/* parallax layer: slightly oversized so the nudge never reveals an edge */
+.parallax-host {
+  position: relative;
+  overflow: hidden;
+}
+.parallax-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -9%;
+  height: 118%;
+  will-change: transform;
+}
+
+.model3d {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: #0a0a0c;
+}
+.model3d_mv {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  --poster-color: transparent;
+  --progress-bar-color: #ff7a2a;
+}
+
+/* WebXR passthrough-grid backdrop behind the transparent model */
+.car-webxr .model3d {
+  background-color: #05070c;
+  background-image:
+    linear-gradient(rgba(58, 160, 255, 0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(58, 160, 255, 0.10) 1px, transparent 1px),
+    radial-gradient(120% 90% at 50% 18%, #0a1730 0%, #05070c 72%);
+  background-size: 46px 46px, 46px 46px, 100% 100%;
+}
+
+/* centred wordmark over a 3D stripe (the wordmark is the link) */
+.model-stripe_logo,
+.obd-wordmark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.model-stripe_logo a,
+.model-stripe_logo .center_logo {
+  pointer-events: auto;
+}
+/* shrink-wrap the anchor + fixed height so the mark is truly centred
+   (percentage max-width on the img otherwise inflates the anchor) */
+.model-stripe_logo a {
+  display: inline-flex;
+}
+.model-stripe .center_logo {
+  height: 104px;
+  width: auto;
+  max-width: none !important;
+  max-height: none !important;
+  filter: drop-shadow(0 2px 22px rgba(0, 0, 0, 0.65));
+}
+
+/* live OBD instrument cluster */
+.obd_svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.obd-stripe .center_logo {
+  max-width: 16% !important;
+  max-height: 12% !important;
+  filter: drop-shadow(0 2px 16px rgba(0, 0, 0, 0.85));
 }
 
 a:link {
@@ -466,14 +551,6 @@ header, .header {
   }
 
   /* keep the meaningful part of each crop on the small band */
-  .img_e36_obd {
-    background-position: 30% center;
-  }
-
-  .img_e36_restoration {
-    background-position: center 60%;
-  }
-
   .img_shellcar {
     background-position: center 40%;
   }
