@@ -1,12 +1,58 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+const description = "Chona Pardo — projects, music & experiments.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.chonapardo.com"),
   title: "Chona Pardo",
-  description: "Chona Pardo",
+  description,
+  applicationName: "Chona Pardo",
+  manifest: "/manifest.json",
+  itunes: { appId: "1533049098" },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32x32.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-16x16.png", type: "image/png", sizes: "16x16" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+      { url: "/icon-512.png", type: "image/png", sizes: "512x512" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    shortcut: ["/favicon.ico"],
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Chona",
+    statusBarStyle: "black-translucent",
+  },
+  openGraph: {
+    type: "website",
+    url: "https://www.chonapardo.com/",
+    siteName: "Chona Pardo",
+    title: "Chona Pardo",
+    description,
+    images: [{ url: "/thumbnail.jpg", width: 500, height: 501, alt: "Chona Pardo" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Chona Pardo",
+    description,
+    images: ["/thumbnail.jpg"],
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FECA58" },
+    { media: "(prefers-color-scheme: dark)", color: "#0C043F" },
+  ],
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({
@@ -17,31 +63,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="twitter:card" content="summary" />
-        <meta property="og:url" content="https://chonapardo.com/" />
-        <meta property="og:title" content="Chona Pardo" />
-        <meta property="og:description" content="Chona Pardo" />
-        <meta property="og:image" content="thumbnail.jpg" />
-        <meta name="Description" content="Chona Pardo"/>
-        <meta name="theme-color" content="#0C043F" />
-        <meta name="apple-itunes-app" content="app-id=1533049098"/>
-        <meta httpEquiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover,  shrink-to-fit=no" />
-        <meta name="HandheldFriendly" content="true"/>
-        <link rel="manifest" href="manifest.json"/>
-        <meta httpEquiv="Cache-control" content="no-cache"/>
-        <meta httpEquiv="Expires" content="-1"/>
-        <meta name="apple-mobile-web-app-capable" content="yes"/>
-        <link rel="apple-touch-icon" href="/icon-152.png"/>
-        <link rel="shortcut icon" sizes="196x196" href="/icon-196.png"/>
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-        <meta name="theme-color" content="#FECA58" />
-        <meta name="HandheldFriendly" content="true"/>
-        <meta name="mobile-web-app-capable" content="yes"/>
-        <meta name="apple-mobile-web-app-title" content="Chona"/>
-        <meta name="application-name" content="Chona Pardo"/>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css"/>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        {/* Font Awesome 4.7 powers the footer social icons */}
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+        />
       </head>
       <body className={inter.className}>{children}</body>
     </html>
