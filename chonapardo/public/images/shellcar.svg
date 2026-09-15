@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" role="img" aria-label="ShellCar">
+  <style>
+    .sc { font-family: ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif; font-weight: 700; }
+  </style>
+  <!-- roundel motif (BMW-inspired quartered disc) with a BLE glyph at its centre -->
+  <g transform="translate(80 80)">
+    <circle r="58" fill="#0b0b0f"/>
+    <circle r="58" fill="none" stroke="#ffffff" stroke-width="6"/>
+    <path d="M0 -46 A46 46 0 0 1 46 0 L0 0 Z" fill="#3aa0ff"/>
+    <path d="M0 46 A46 46 0 0 1 -46 0 L0 0 Z" fill="#3aa0ff"/>
+    <path d="M46 0 A46 46 0 0 1 0 46 L0 0 Z" fill="#eef2f7"/>
+    <path d="M-46 0 A46 46 0 0 1 0 -46 L0 0 Z" fill="#eef2f7"/>
+    <!-- bluetooth rune -->
+    <path d="M0 -30 L18 -12 L-4 6 L18 24 L0 42 L0 -30 L-16 -14 M0 42 L-16 26" fill="none" stroke="#0b0b0f" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <text class="sc" x="168" y="112" font-size="92" fill="#ffffff" letter-spacing="1">Shell<tspan fill="#3aa0ff">Car</tspan></text>
+</svg>

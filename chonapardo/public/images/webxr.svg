@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 160" role="img" aria-label="WebXR">
+  <style>
+    .wx { font-family: ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif; }
+  </style>
+  <!-- wireframe cube glyph -->
+  <g stroke="#ffffff" stroke-width="4" fill="none" stroke-linejoin="round" stroke-linecap="round" opacity="0.95">
+    <path d="M70 44 l40 -22 l40 22 l0 46 l-40 22 l-40 -22 Z"/>
+    <path d="M70 44 l40 22 l40 -22 M110 66 l0 46"/>
+  </g>
+  <text class="wx" x="196" y="112" font-size="96" letter-spacing="1">
+    <tspan fill="#e7e7ea" font-weight="500">Web</tspan><tspan fill="#ffffff" font-weight="800">XR</tspan>
+  </text>
+</svg>

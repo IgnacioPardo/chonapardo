@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 150" role="img" aria-label="Player2Vec">
+  <style>
+    .p2v { font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace; font-weight: 600; }
+  </style>
+  <!-- vector arrow over the mark, evoking an embedding -->
+  <g stroke="#5eead4" stroke-width="4" fill="none" stroke-linecap="round">
+    <line x1="70" y1="34" x2="520" y2="34"/>
+    <path d="M520 34 l-16 -8 M520 34 l-16 8"/>
+  </g>
+  <text class="p2v" x="330" y="112" text-anchor="middle" font-size="96" fill="#f5f7f5" letter-spacing="2">player<tspan fill="#5eead4">2</tspan>vec</text>
+</svg>

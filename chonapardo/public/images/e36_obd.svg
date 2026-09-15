@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 150" role="img" aria-label="E36 OBD">
+  <style>
+    .seg { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-weight: 700; font-style: italic; }
+  </style>
+  <!-- amber cluster identity, echoing the E36 instrument UI -->
+  <text class="seg" x="16" y="112" font-size="104" fill="#ff7a2a" letter-spacing="6">E36</text>
+  <!-- segmented divider dot -->
+  <circle cx="330" cy="76" r="8" fill="#ff7a2a" opacity="0.85"/>
+  <text class="seg" x="372" y="112" font-size="104" fill="#ffb066" letter-spacing="6">OBD</text>
+</svg>
