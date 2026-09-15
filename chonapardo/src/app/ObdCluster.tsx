@@ -10,6 +10,8 @@ const pt = (cx: number, cy: number, r: number, f: number) => {
   return [cx + r * Math.sin(a), cy - r * Math.cos(a)] as const;
 };
 
+const COARSE = '(hover: none) and (pointer: coarse)';
+
 interface DialProps {
   cx: number;
   cy: number;
@@ -60,14 +62,23 @@ function Dial({ cx, cy, r, max, labelEvery, unit, needleRef, redlineFrom }: Dial
   );
 }
 
+/**
+ * Live gauges. Every frame repaints the whole SVG (WebKit never composites SVG
+ * children), so the loop only runs while the stripe is on screen and the tab is
+ * visible, and drops to ~30 fps on touch devices.
+ */
 export const ObdCluster = () => {
+  const svgRef = useRef<SVGSVGElement>(null);
   const tachRef = useRef<SVGGElement>(null);
   const loadRef = useRef<SVGGElement>(null);
   const LOAD = { cx: 520, cy: 300, r: 210, max: 16 };
   const TACH = { cx: 1080, cy: 300, r: 210, max: 7 };
 
   useEffect(() => {
+    const svg = svgRef.current;
+    if (!svg) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const minDt = window.matchMedia(COARSE).matches ? 1000 / 30 : 0;
     let rpm = 880;
     let target = 880;
     let nextRev = performance.now() + 2600;
@@ -81,26 +92,59 @@ export const ObdCluster = () => {
       set(880);
       return;
     }
+
     let raf = 0;
     let last = performance.now();
+    let revTimer = 0;
     const loop = (now: number) => {
+      raf = requestAnimationFrame(loop);
+      if (now - last < minDt) return;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       if (now > nextRev) {
         target = 2600 + Math.random() * 3600;
         nextRev = now + 1800 + Math.random() * 3400;
-        window.setTimeout(() => (target = 820 + Math.random() * 150), 320 + Math.random() * 500);
+        revTimer = window.setTimeout(() => (target = 820 + Math.random() * 150), 320 + Math.random() * 500);
       }
       rpm += (target - rpm) * Math.min(1, dt * 4) + (Math.random() - 0.5) * 16;
       set(rpm);
+    };
+
+    let visible = false;
+    const start = () => {
+      if (raf || !visible || document.hidden) return;
+      last = performance.now();
       raf = requestAnimationFrame(loop);
     };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
+    const stop = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+    };
+    const onVisibility = () => (document.hidden ? stop() : start());
+    document.addEventListener('visibilitychange', onVisibility);
+
+    let io: IntersectionObserver | undefined;
+    if ('IntersectionObserver' in window) {
+      io = new IntersectionObserver((entries) => {
+        visible = entries.some((e) => e.isIntersecting);
+        visible ? start() : stop();
+      });
+      io.observe(svg);
+    } else {
+      visible = true;
+      start();
+    }
+
+    return () => {
+      stop();
+      io?.disconnect();
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.clearTimeout(revTimer);
+    };
   }, [LOAD.cx, LOAD.cy, LOAD.max, TACH.cx, TACH.cy]);
 
   return (
-    <svg className="obd_svg" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid meet" role="img" aria-label="E36 OBD live gauges">
+    <svg ref={svgRef} className="obd_svg" viewBox="0 0 1600 600" preserveAspectRatio="xMidYMid meet" role="img" aria-label="E36 OBD live gauges">
       <rect x="0" y="0" width="1600" height="600" fill="#050505" />
       <Dial {...LOAD} labelEvery={2} unit="CARGA  ms" needleRef={loadRef} />
       <Dial {...TACH} labelEvery={1} unit="1/min  x1000" needleRef={tachRef} redlineFrom={6 / 7} />
