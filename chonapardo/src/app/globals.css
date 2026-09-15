@@ -303,9 +303,11 @@ body {
 }
 
 .iframeCassttes{
+  position: relative; /* above the poster */
+  z-index: 1;
   width: 100%;
   height: 100%;
-
+  border: 0;
 }
 
 .img_playlists {
@@ -400,7 +402,7 @@ body {
   --progress-bar-color: #ff7a2a;
 }
 
-/* instant posters for the lazy/tap-to-load embeds */
+/* instant posters under the lazy embeds */
 .model3d_poster,
 .cassettes_poster {
   position: absolute;
@@ -408,23 +410,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-.tap-to-load {
-  position: absolute;
-  left: 50%;
-  bottom: 12%;
-  transform: translateX(-50%);
-  z-index: 2;
-  pointer-events: auto;
-  padding: 10px 18px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  white-space: nowrap;
-  cursor: pointer;
 }
 
 /* WebXR passthrough-grid backdrop behind the transparent model */

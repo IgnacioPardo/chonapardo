@@ -22,11 +22,10 @@ const COARSE = '(hover: none) and (pointer: coarse)';
 /**
  * Lazy, interactive 3D model stripe content built on <model-viewer>.
  *
- * The poster is a plain <img> so the stripe paints instantly. On desktop the
- * library (~1 MB) and the .glb are fetched once the stripe nears the viewport.
- * On touch devices nothing is fetched until the user taps: three.js parsing
- * mid-flick and a 560px WebGL canvas were the main causes of iOS scroll jank,
- * and camera-controls would otherwise swallow vertical swipes over the stripe.
+ * The poster is a plain <img> so the stripe paints instantly; the library
+ * (~1 MB) and the .glb are fetched once the stripe nears the viewport. On touch
+ * devices the model only auto-rotates: camera-controls would set
+ * touch-action:none and swallow vertical swipes over the stripe.
  */
 export const Model3D = ({
   src,
@@ -48,29 +47,22 @@ export const Model3D = ({
   const triggeredRef = useRef(false);
   const [ready, setReady] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
-  const [needsTap, setNeedsTap] = useState(false);
 
   const load = useCallback(() => {
     if (triggeredRef.current) return;
     triggeredRef.current = true;
-    setNeedsTap(false);
     import('@google/model-viewer')
       .then(() => setReady(true))
       .catch(() => {
         triggeredRef.current = false;
-        setNeedsTap(coarseRef.current);
       });
   }, []);
 
-  // Desktop: load near the viewport. Touch: wait for a tap.
+  // Load the library + reveal the model once the stripe is near the viewport.
   useEffect(() => {
     const el = hostRef.current;
     if (!el) return;
     coarseRef.current = window.matchMedia(COARSE).matches;
-    if (coarseRef.current) {
-      setNeedsTap(true);
-      return;
-    }
     if (!('IntersectionObserver' in window)) {
       load();
       return;
@@ -152,11 +144,6 @@ export const Model3D = ({
       {ready && (
         // eslint-disable-next-line react/no-unknown-property
         <model-viewer ref={mvRef} class="model3d_mv" />
-      )}
-      {needsTap && (
-        <button type="button" className="tap-to-load" onClick={load} aria-label={`Load ${alt}`}>
-          Tap to explore in 3D
-        </button>
       )}
     </div>
   );
