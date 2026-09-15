@@ -4,7 +4,7 @@ export const SpotifyCassettes = () => {
       className="iframeCassttes"
       id="cassettes_iframe"
       src="https://spotify-cassettes.vercel.app/?display=compact"
-      title="mAPI Live"
+      title="Spotify Cassettes"
       allowFullScreen />
   </div>;
 };

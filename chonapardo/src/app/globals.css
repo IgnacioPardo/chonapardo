@@ -174,11 +174,9 @@ body {
 body {
   scroll-behavior: smooth;
   background-color: var(--main-color);
-  background-color: var(--main-color);
 }
 
 footer{
-  background-color: var(--main-color);
   background-color: var(--main-color);
 }
 
@@ -244,12 +242,15 @@ body {
   align-items: center;
 }
 
+.stripe.clickable {
+  cursor: pointer;
+}
+
 .ttxp{
   background-color: #0c073e;
 }
 
 .lemon{
-  background-color: var(--main-color);
   background-color: var(--main-color);
 }
 
@@ -316,6 +317,52 @@ body {
   cursor: pointer;
 }
 
+/* Portfolio 2026 — 2025/26 projects */
+.img_autonoma {
+  background-image: url("/images/autonoma_bg.webp");
+  background-color: #0b0b0f;
+}
+
+.img_player2vec {
+  background-image: url("/images/player2vec_bg.png");
+  background-color: #0f1a12;
+}
+
+.img_e36_obd {
+  background-image: url("/images/e36_obd_bg.jpg");
+  background-color: #000;
+}
+
+.img_e36_restoration {
+  background-image: url("/images/e36_restoration_bg.jpg");
+}
+
+.img_alzheimer {
+  background-image: url("/images/alzheimer_bg.png");
+  background-color: #111;
+}
+
+.img_webxr {
+  background-image: url("/images/webxr_bg.png");
+  background-color: #000;
+}
+
+.img_shellcar {
+  background-image: url("/images/shellcar_bg.jpg");
+  background-color: #0b0b0f;
+}
+
+#e36_restoration {
+  height: 650px !important;
+  max-height: 650px !important; /* photographic, like #playlists */
+}
+
+.autonoma_logo,
+.webxr_logo,
+.e36_obd_logo {
+  max-height: 18% !important; /* small identity treatment */
+}
+
 a:link {
   text-decoration: none;
 }
@@ -327,7 +374,6 @@ a:visited {
 .flex-center {
   width: 100%;
   height: 10%;
-  background: var(--main-color);
   background: var(--main-color);
   display: -webkit-box;
   display: -webkit-flex;
@@ -400,7 +446,6 @@ header, .header {
   align-items: center;
 
   background-color: var(--main-color);
-  background-color: var(--main-color);
 }
 
 .parrot {
@@ -418,6 +463,19 @@ header, .header {
 
   .parallax {
     background-attachment: scroll;
+  }
+
+  /* keep the meaningful part of each crop on the small band */
+  .img_e36_obd {
+    background-position: 30% center;
+  }
+
+  .img_e36_restoration {
+    background-position: center 60%;
+  }
+
+  .img_shellcar {
+    background-position: center 40%;
   }
 
   .header {
