@@ -4,11 +4,16 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const description = "Chona Pardo — projects, music & experiments.";
+// SERP snippet (120–160 chars) and social-card blurb (80–125 chars).
+const description =
+  "Ignacio “Chona” Pardo’s portfolio: AI agents at Autonoma, football analytics with Player2Vec, a restored E36 with live OBD gauges, WebXR demos and music.";
+const ogDescription =
+  "Ignacio “Chona” Pardo — AI agents, football analytics, a restored E36 with live OBD gauges, WebXR demos, music & podcasts.";
+const ogImage = { url: "/og.png", width: 1200, height: 630, alt: "Chona Pardo — projects, music & experiments" };
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.chonapardo.com"),
-  title: "Chona Pardo",
+  title: "Chona Pardo — AI, Machine Learning, Music & Experiments",
   description,
   applicationName: "Chona Pardo",
   manifest: "/manifest.json",
@@ -34,14 +39,14 @@ export const metadata: Metadata = {
     url: "https://www.chonapardo.com/",
     siteName: "Chona Pardo",
     title: "Chona Pardo",
-    description,
-    images: [{ url: "/thumbnail.jpg", width: 500, height: 501, alt: "Chona Pardo" }],
+    description: ogDescription,
+    images: [ogImage],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Chona Pardo",
-    description,
-    images: ["/thumbnail.jpg"],
+    description: ogDescription,
+    images: [ogImage],
   },
 };
 
