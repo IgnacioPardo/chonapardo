@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 290" role="img" aria-label="WebXR">
+  <style>.wx { font-family: ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif; }</style>
+  <!-- isometric cube, centered on x=260 -->
+  <g transform="translate(260 86)" fill="none" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M0 -46 L40 -23 L40 23 L0 46 L-40 23 L-40 -23 Z"/>
+    <path d="M0 0 L-40 -23 M0 0 L40 -23 M0 0 L0 46"/>
+  </g>
+  <text class="wx" x="260" y="238" text-anchor="middle" font-size="94" letter-spacing="1">
+    <tspan fill="#e7e7ea" font-weight="500">Web</tspan><tspan fill="#3aa0ff" font-weight="800">XR</tspan>
+  </text>
+</svg>
