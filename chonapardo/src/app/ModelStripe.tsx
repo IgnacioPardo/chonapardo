@@ -58,6 +58,7 @@ export const ModelStripe = ({
           poster={poster}
           posterSmall={posterSmall}
           alt={alt}
+          url={url}
           exposure={exposure}
           environmentImage={environmentImage}
           cameraOrbit={cameraOrbit}
