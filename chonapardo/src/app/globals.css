@@ -412,6 +412,15 @@ body {
   object-fit: cover;
 }
 
+/* touch fallback: the poster fills the stripe and is the tap target/link */
+.model3d_poster_link,
+.cassettes_poster_link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  cursor: pointer;
+}
+
 /* WebXR passthrough-grid backdrop behind the transparent model */
 .car-webxr .model3d {
   background-color: #05070c;

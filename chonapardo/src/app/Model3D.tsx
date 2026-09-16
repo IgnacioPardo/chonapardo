@@ -6,6 +6,7 @@ interface Model3DProps {
   poster?: string;
   posterSmall?: string;
   alt: string;
+  url?: string;
   exposure?: number;
   shadowIntensity?: number;
   environmentImage?: string;
@@ -23,15 +24,18 @@ const COARSE = '(hover: none) and (pointer: coarse)';
  * Lazy, interactive 3D model stripe content built on <model-viewer>.
  *
  * The poster is a plain <img> so the stripe paints instantly; the library
- * (~1 MB) and the .glb are fetched once the stripe nears the viewport. On touch
- * devices the model only auto-rotates: camera-controls would set
- * touch-action:none and swallow vertical swipes over the stripe.
+ * (~1 MB) and the .glb are fetched once the stripe nears the viewport.
+ *
+ * On touch devices the model is never loaded at all: the WebGL scene is the
+ * heaviest thing on the page and makes phones scroll-janky, so we keep the
+ * static poster and turn the whole stripe into a link out to the live demo.
  */
 export const Model3D = ({
   src,
   poster,
   posterSmall,
   alt,
+  url,
   exposure = 1,
   shadowIntensity = 0.55,
   environmentImage = 'neutral',
@@ -43,10 +47,11 @@ export const Model3D = ({
 }: Model3DProps) => {
   const hostRef = useRef<HTMLDivElement>(null);
   const mvRef = useRef<any>(null);
-  const coarseRef = useRef(false);
   const triggeredRef = useRef(false);
   const [ready, setReady] = useState(false);
   const [modelLoaded, setModelLoaded] = useState(false);
+  // Touch devices never load the model — see the component doc comment.
+  const [coarse, setCoarse] = useState(false);
 
   const load = useCallback(() => {
     if (triggeredRef.current) return;
@@ -62,7 +67,11 @@ export const Model3D = ({
   useEffect(() => {
     const el = hostRef.current;
     if (!el) return;
-    coarseRef.current = window.matchMedia(COARSE).matches;
+    // On phones/tablets we skip the whole WebGL path: no library, no .glb.
+    if (window.matchMedia(COARSE).matches) {
+      setCoarse(true);
+      return;
+    }
     if (!('IntersectionObserver' in window)) {
       load();
       return;
@@ -103,9 +112,8 @@ export const Model3D = ({
     if (maxCameraOrbit) attrs['max-camera-orbit'] = maxCameraOrbit;
     if (fieldOfView) attrs['field-of-view'] = fieldOfView;
     Object.entries(attrs).forEach(([k, v]) => mv.setAttribute(k, v));
-    // Orbit by drag on desktop only; on touch the model just auto-rotates so
-    // the page keeps scrolling (model-viewer's controls set touch-action:none).
-    mv.toggleAttribute('camera-controls', !coarseRef.current);
+    // Desktop only (touch devices never reach here): orbit by drag.
+    mv.toggleAttribute('camera-controls', true);
     mv.toggleAttribute('auto-rotate', true);
     mv.toggleAttribute('disable-zoom', true);
     mv.toggleAttribute('disable-pan', true);
@@ -126,20 +134,35 @@ export const Model3D = ({
     fieldOfView,
   ]);
 
+  // Plain <img> on purpose: paints before any JS, no optimizer dependency.
+  const posterImg = poster && !modelLoaded && (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      className="model3d_poster"
+      src={poster}
+      srcSet={posterSmall ? `${posterSmall} 900w, ${poster} 1600w` : undefined}
+      sizes="100vw"
+      alt=""
+      decoding="async"
+      loading="lazy"
+    />
+  );
+
   return (
     <div ref={hostRef} className="model3d">
-      {poster && !modelLoaded && (
-        // Plain <img> on purpose: paints before any JS, no optimizer dependency.
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          className="model3d_poster"
-          src={poster}
-          srcSet={posterSmall ? `${posterSmall} 900w, ${poster} 1600w` : undefined}
-          sizes="100vw"
-          alt=""
-          decoding="async"
-          loading="lazy"
-        />
+      {/* On touch the poster fills the stripe and links out to the live demo. */}
+      {coarse && url ? (
+        <a
+          className="model3d_poster_link"
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          aria-label={alt}
+        >
+          {posterImg}
+        </a>
+      ) : (
+        posterImg
       )}
       {ready && (
         // eslint-disable-next-line react/no-unknown-property
